@@ -7,7 +7,7 @@ client_credentials_manager = SpotifyClientCredentials(client_id='45ba55617bf5484
 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-filelist = os.listdir('data/')
+filelist = os.listdir('data/2018/')
 
 weekly_average_list = []
 
@@ -15,7 +15,7 @@ available_params = ["duration_ms", "acousticness", "danceability", "energy", "in
 selected_param = available_params[0] # 0-9
 
 for i in filelist:
-    df = pd.read_csv('data/' + i, header=1)
+    df = pd.read_csv('data/2018/' + i, header=1)
     
     block_1 = df['URL'][0:50]
     block_2 = df['URL'][50:100]
