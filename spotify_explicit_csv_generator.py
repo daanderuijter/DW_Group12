@@ -39,6 +39,6 @@ for i in filelist:
            df3.groupby('explicit')['rank'].mean()[0],
            df3.groupby('explicit')['rank'].mean()[1]]
     
-    df.loc[len(df)] = row
+    df.loc[len(df)+1] = row
     
 df.to_csv(path_or_buf='output/dataframes/explicit.csv')
