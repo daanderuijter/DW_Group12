@@ -13,12 +13,13 @@ client_credentials_manager = SpotifyClientCredentials(client_id='45ba55617bf5484
 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-filelist = os.listdir('data/2018/')
+data_year = '2018'
+filelist = os.listdir('data/' + data_year + '/')
 mycolumns = ['file'] + list(range(1,201))
 df = pd.DataFrame(columns=mycolumns)
 
 for i in filelist:
-    df2 = pd.read_csv('data/2018/' + i, header=1)
+    df2 = pd.read_csv('data/' + data_year + '/' + i, header=1)
     
     file_date = str(i[:-4].split('-')[-3] + '-' + i[:-4].split('-')[-2] + '-' + i[:-4].split('-')[-1])
     
@@ -41,4 +42,4 @@ for i in filelist:
     
     df.loc[len(df)+1] = row
     
-df.to_csv(path_or_buf='output/dataframes/release_date.csv')
+df.to_csv(path_or_buf='output/dataframes/' + data_year + '/release_date.csv')

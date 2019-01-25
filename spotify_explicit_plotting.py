@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-df = pd.read_csv('output/dataframes/explicit.csv',index_col=0)
+data_year = '2018'
+df = pd.read_csv('output/dataframes/' + data_year + '/explicit.csv',index_col=0)
 
 fig = plt.figure()
 
@@ -21,4 +22,4 @@ df['count_true'].plot(ax=ax1, figsize=(18,10),legend=True, label='True')
 df['mean_false'].plot(ax=ax2, figsize=(18,10),legend=True, label='False')
 df['mean_true'].plot(ax=ax2, figsize=(18,10),legend=True, label='True')
 
-fig.savefig('output/figures/explicit.png')
+fig.savefig('output/figures/' + data_year + '/explicit.png')

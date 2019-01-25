@@ -7,36 +7,34 @@ client_credentials_manager = SpotifyClientCredentials(client_id='45ba55617bf5484
 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-filelist = os.listdir('data/2018/')
-
-weekly_average_list = []
-
+data_year = '2017'
+filelist = os.listdir('data/' + data_year + '/')
 available_params = ["duration_ms", "acousticness", "danceability", "energy", "instrumentalness", "liveness", "loudness", "speechiness", "valence", "tempo"]
-selected_param = available_params[0] # 0-9
 
-for i in filelist:
-    df = pd.read_csv('data/2018/' + i, header=1)
+for i in available_params:
+    selected_param = i
+    weekly_average_list = []
+    for j in filelist:
+        df = pd.read_csv('data/' + data_year + '/' + j, header=1)
+        
+        block_1 = df['URL'][0:50]
+        block_2 = df['URL'][50:100]
+        block_3 = df['URL'][100:150]
+        block_4 = df['URL'][150:200]
+        
+        blocklist = [block_1,block_2,block_3,block_4]
     
-    block_1 = df['URL'][0:50]
-    block_2 = df['URL'][50:100]
-    block_3 = df['URL'][100:150]
-    block_4 = df['URL'][150:200]
+        weekly_average = []
+        
+        for k in blocklist:
+            audio_feature_search = sp.audio_features(k)
+            for l in range(len(audio_feature_search)):
+                weekly_average.append(audio_feature_search[l][selected_param])
+        
+        to_append = sum(weekly_average)/len(weekly_average)
+        weekly_average_list.append(to_append)
     
-    blocklist = [block_1,block_2,block_3,block_4]
-
-    weekly_average = []
-    
-    for i in blocklist:
-        audio_feature_search = sp.audio_features(i)
-        for i in range(len(audio_feature_search)):
-            weekly_average.append(audio_feature_search[i][selected_param])
-    
-    to_append = sum(weekly_average)/len(weekly_average)
-    weekly_average_list.append(to_append)
-
-print('A list of the weekly averages of the {} feature: {} '.format(selected_param, weekly_average_list))
-
-output_file = open('output/text/weekly_average_' + selected_param + '.txt','w')
-for i in weekly_average_list:
-    output_file.write(str(i) + '\n')
-output_file.close()
+    output_file = open('output/text/' + data_year + '/weekly_average_' + selected_param + '.txt','w')
+    for m in weekly_average_list:
+        output_file.write(str(m) + '\n')
+    output_file.close()
