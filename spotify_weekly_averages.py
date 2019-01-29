@@ -33,7 +33,7 @@ for i in available_params:
         
         to_append = sum(weekly_average)/len(weekly_average)
         weekly_average_list.append(to_append)
-    
+
     output_file = open('output/text/' + data_year + '/weekly_average_' + selected_param + '.txt','w')
     for m in weekly_average_list:
         output_file.write(str(m) + '\n')

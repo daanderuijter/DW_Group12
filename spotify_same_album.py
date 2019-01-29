@@ -32,8 +32,8 @@ for year in data_years:
             for k in audio_feature_search['tracks']:
                 album_list.append(k['album']['name'])
         
-            row = [i] + [len(set(album_list))]
+        row = [i] + [len(set(album_list))]
             
-            df.loc[len(df)+1] = row
+        df.loc[len(df)+1] = row
     
 df.to_csv(path_or_buf='output/dataframes/all/albums.csv')
