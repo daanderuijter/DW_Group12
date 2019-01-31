@@ -1,3 +1,6 @@
+'''
+Loads the dataframes containing the weekly unique album values for every Top 200 and plots them
+'''
 import matplotlib.pyplot as plt
 import pandas as pd
 

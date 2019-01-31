@@ -1,9 +1,8 @@
+'''
+Loads the dataframes containing the weekly explicit song values for a given year and plots the count and mean rank
+'''
 import matplotlib.pyplot as plt
 import pandas as pd
-
-def get_explicit_df(year):
-    df = pd.read_csv('output/dataframes/' + year + '/explicit.csv',index_col=0)
-    return df
 
 def group_weeks(df):
     df_grouped = pd.DataFrame(columns=list(df))
@@ -12,27 +11,20 @@ def group_weeks(df):
         df_grouped.loc[len(df_grouped)+1] = row
     return df_grouped
 
-df1 = group_weeks(get_explicit_df('2017'))
-df2 = group_weeks(get_explicit_df('2018'))
+data_years = ['2017','2018']
+df1 = group_weeks(pd.read_csv('output/dataframes/' + data_years[0] + '/explicit.csv',index_col=0))
+df2 = group_weeks(pd.read_csv('output/dataframes/' + data_years[1] + '/explicit.csv',index_col=0))
 
 fig = plt.figure()
 
-ax1 = fig.add_subplot(121)
-ax1.set_title('Count Of Explicit Songs')
-ax1.set_xlabel('Group of 4 weeks')
-ax1.set_ylabel('Count')
+ax1 = fig.add_subplot(121, title = 'Count Of Explicit Songs', xlabel = 'Group of 4 weeks', ylabel = 'Count')
+df1['count'].plot(ax=ax1, figsize=(18,10),legend=True, label= data_years[0])
+df2['count'].plot(ax=ax1, figsize=(18,10),legend=True, label= data_years[1])
 ax1.set_ylim(0,200)
 
-ax2 = fig.add_subplot(122)
-ax2.set_title('Mean Of Explicit Songs')
-ax2.set_xlabel('Group of 4 weeks')
-ax2.set_ylabel('Mean')
+ax2 = fig.add_subplot(122, title = 'Mean Rank Of Explicit Songs', xlabel = 'Group of 4 weeks', ylabel = 'Mean Rank')
+df1['mean_rank'].plot(ax=ax2, figsize=(18,10),legend=True, label= data_years[0])
+df2['mean_rank'].plot(ax=ax2, figsize=(18,10),legend=True, label= data_years[1])
 ax2.set_ylim(0,200)
-
-df1['count_true'].plot(ax=ax1, figsize=(18,10),legend=True, label='2017')
-df2['count_true'].plot(ax=ax1, figsize=(18,10),legend=True, label='2018')
-
-df1['mean_true'].plot(ax=ax2, figsize=(18,10),legend=True, label='2017')
-df2['mean_true'].plot(ax=ax2, figsize=(18,10),legend=True, label='2018')
 
 fig.savefig('output/figures/all/explicit.png')
